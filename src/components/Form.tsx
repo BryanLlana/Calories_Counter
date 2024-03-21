@@ -1,12 +1,20 @@
 import { categories } from '../data/index';
-import { useMemo, useState } from 'react';
+import { Dispatch, useMemo, useState } from 'react';
 import { ActivityForm } from '../types';
-const Form = () => {
-  const [form, setForm] = useState<ActivityForm>({
-    name: '',
-    category: 0,
-    calories: 0
-  }) 
+import { ActivityAction } from '../reducers/activity.reducer';
+
+type Props = {
+  dispatch: Dispatch<ActivityAction>
+}
+
+const initialState: ActivityForm = {
+  name: '',
+  category: 0,
+  calories: 0
+}
+
+const Form = ({ dispatch }: Props) => {
+  const [form, setForm] = useState<ActivityForm>(initialState) 
 
   const isValidate = useMemo(() => form.name.trim() !== '' && form.calories > 0 && form.category !== 0, [form])
 
@@ -20,8 +28,8 @@ const Form = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-
-    console.log('enviando')
+    dispatch({ type: 'save-activity', payload: {newActivity: form }})
+    setForm(initialState)
   } 
 
   return (
@@ -34,7 +42,7 @@ const Form = () => {
           defaultValue={form.category}
           onChange={handleChange}
         >
-          <option value={form.category} disabled>--Seleccione--</option>
+          <option value={form.category} selected={form.category === 0} disabled>--Seleccione--</option>
           {categories.map(category => (
             <option
               key={category.id}
