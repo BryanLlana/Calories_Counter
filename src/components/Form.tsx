@@ -1,11 +1,12 @@
 import { categories } from '../data/index';
-import { Dispatch, useMemo, useState } from 'react';
+import { Dispatch, useEffect, useMemo, useState } from 'react';
 import { ActivityForm } from '../types';
-import { ActivityAction } from '../reducers/activity.reducer';
+import { ActivityAction, ActivityState } from '../reducers/activity.reducer';
 import { v4 as uuid } from 'uuid'
 
 type Props = {
-  dispatch: Dispatch<ActivityAction>
+  dispatch: Dispatch<ActivityAction>,
+  state: ActivityState
 }
 
 const initialState: ActivityForm = {
@@ -14,8 +15,16 @@ const initialState: ActivityForm = {
   calories: 0
 }
 
-const Form = ({ dispatch }: Props) => {
+const Form = ({ dispatch, state }: Props) => {
   const [form, setForm] = useState<ActivityForm>(initialState) 
+
+  useEffect(() => {
+    if (state.activeId) {
+      const selectedActivity = state.activites.find(activity => activity.id === state.activeId)
+      const { id, ...values } = selectedActivity!
+      setForm(values)
+    }
+  }, [state.activeId])
 
   const isValidate = useMemo(() => form.name.trim() !== '' && form.calories > 0 && form.category !== 0, [form])
 
@@ -82,7 +91,7 @@ const Form = ({ dispatch }: Props) => {
       <input
         type="submit"
         className='bg-gray-800 hover:bg-gray-900 w-full p-2 font-bold text-white cursor-pointer disabled:opacity-50 rounded-md'
-        value='Guardar'
+        value={form.category === 1 ? 'Guardar Comida' : form.category === 2 ? 'Guardar Ejercicio' : 'Guardar'}
         disabled={!isValidate}
       />
     </form>
