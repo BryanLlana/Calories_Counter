@@ -2,6 +2,7 @@ import { categories } from '../data/index';
 import { Dispatch, useMemo, useState } from 'react';
 import { ActivityForm } from '../types';
 import { ActivityAction } from '../reducers/activity.reducer';
+import { v4 as uuid } from 'uuid'
 
 type Props = {
   dispatch: Dispatch<ActivityAction>
@@ -28,7 +29,7 @@ const Form = ({ dispatch }: Props) => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    dispatch({ type: 'save-activity', payload: {newActivity: form }})
+    dispatch({ type: 'save-activity', payload: {newActivity: { id: uuid(), ...form } }})
     setForm(initialState)
   } 
 

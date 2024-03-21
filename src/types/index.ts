@@ -8,3 +8,7 @@ export type ActivityForm = {
   name: string,
   calories: number
 }
+
+export type ActivityWithId = ActivityForm & {
+  id: string
+}

@@ -1,12 +1,12 @@
-import { ActivityForm } from "../types"
+import { ActivityWithId } from "../types"
 
 type ActivityState = {
-  activites: ActivityForm[]
+  activites: ActivityWithId[]
 }
 
 export type ActivityAction = {
   type: 'save-activity',
-  payload: { newActivity: ActivityForm }
+  payload: { newActivity: ActivityWithId }
 }
 
 export const initialState: ActivityState =  {
