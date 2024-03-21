@@ -13,7 +13,7 @@ const App = () => {
 
   return (
     <>
-      <Header />
+      <Header state={state} dispatch={dispatch}/>
 
       <section className="bg-lime-500 py-20 px-5 md:px-0">
         <div className="max-w-4xl mx-auto">
