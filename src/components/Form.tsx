@@ -83,6 +83,7 @@ const Form = ({ dispatch, state }: Props) => {
           id='calories'
           className='border border-slate-300 p-2 rounded-lg'
           placeholder='Ejm: 300'
+          min={0}
           value={form.calories}
           onChange={handleChange}
         />
